@@ -4,6 +4,7 @@ import time
 import os
 import pyttsx3
 import threading
+import alert
 
 
 
@@ -24,9 +25,6 @@ def unlock():
 
 def alert():
     print("alerting")
-
-
-
 
 
 recognizer = cv2.face.LBPHFaceRecognizer_create()
