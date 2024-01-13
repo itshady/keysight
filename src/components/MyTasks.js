@@ -18,17 +18,26 @@ const numOverdue = 3;
 
 function MyTasks({ user, uid, db }) {
   const [groupID, setGroupID] = useState(null);
-  const [tasks, setTasks] = useState(null);
+  const [logs, setLogs] = useState(null);
+
   useEffect(() => {
     onValue(ref(db, "users/" + uid + "/group"), (snapshot) => {
       if (snapshot.exists()) {
         const groupID = snapshot.val();
         setGroupID(groupID);
+
         onValue(
-          ref(db, "groups/" + groupID + "/schedule/" + uid),
+          ref(db, "logs"),
           (snapshot) => {
             if (snapshot.exists()) {
-              setTasks(snapshot.val());
+              const resultArray = Object.values(snapshot.val()).map(entry => ({
+                  purpose: entry.purpose,
+                  time: entry.time,
+                  username: entry.username,
+                  useruid: entry.useruid
+              }));
+              setLogs(resultArray);
+              console.log(resultArray)
             }
           }
         );
@@ -44,36 +53,27 @@ function MyTasks({ user, uid, db }) {
           </Text>
         </Box>
         <Text pl={6} className="heading">
-          My Tasks
+          My Logs
         </Text>
         <Box key={uid} w="full">
-          {!tasks ? null : (
+          {!logs ? null : (
             <VStack w="full" h="full" p={4} justifyContent="space-between">
               <VStack w="full">
-                {/* {numTasks > 0 ? (
-                  <Text fontWeight="bold">
-                    {Math.round((numCompletedTasks / numTasks) * 100)}%
-                    Completed
-                  </Text>
-                ) : null} */}
                 <Box py={2} w="full">
                   <VStack
-                    w="400px"
-                    h="250px"
                     overflowY="auto"
                     border="1px"
                     borderColor="gray.200"
                     py={2}
                     borderRadius={4}
                   >
-                    {Object.entries(tasks).map(([key, value], index) => (
+                    {logs.map((value, index) => (
                       <Box w="full">
                         <Task
-                          id={key}
-                          name={value.name}
-                          date={key}
-                          done={value.done}
-                          //   updateParent={updateNumCompletedTasks}
+                          key={index}
+                          name={value.username}
+                          datetime={value.time}
+                          purpose={value.purpose}
                           isTask={true}
                         />
                       </Box>
@@ -84,59 +84,6 @@ function MyTasks({ user, uid, db }) {
             </VStack>
           )}
         </Box>
-        {/* <HStack>
-          <CircularProgress
-            value={percentageC}
-            color="green.400"
-            thickness="9px"
-            size="75px"
-            ml="10"
-          >
-            <Tooltip
-              label="Progress Completed"
-              aria-label="A tooltip"
-              colorScheme="green"
-            >
-              <CircularProgressLabel className="league-font">
-                {percentageC}%
-              </CircularProgressLabel>
-            </Tooltip>
-          </CircularProgress>
-          <CircularProgress
-            value={numTasks}
-            color="orange.400"
-            thickness="9px"
-            size="75px"
-            ml="10"
-          >
-            <Tooltip
-              label="Number of Tasks"
-              aria-label="A tooltip"
-              colorScheme="green"
-            >
-              <CircularProgressLabel className="league-font">
-                {numTasks}
-              </CircularProgressLabel>
-            </Tooltip>
-          </CircularProgress>
-          <CircularProgress
-            value={numOverdue}
-            color="red.400"
-            thickness="9px"
-            size="75px"
-            ml="10"
-          >
-            <Tooltip
-              label="Overdue Tasks"
-              aria-label="A tooltip"
-              colorScheme="green"
-            >
-              <CircularProgressLabel className="league-font">
-                {numOverdue}
-              </CircularProgressLabel>
-            </Tooltip>
-          </CircularProgress>
-        </HStack> */}
       </VStack>
     </Box>
   );
