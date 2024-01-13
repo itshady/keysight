@@ -40,7 +40,12 @@ function App() {
   const [tab, setTab] = useState("My Tasks");
 
   const logIn = async (e) => {
-    await signInWithPopup(auth, provider);
+    try {
+      await signInWithPopup(auth, provider);
+      // Login successful
+    } catch (error) {
+      console.error("Error during login:", error.message);
+    }
   };
 
   const logOut = async (e) => {
@@ -60,6 +65,7 @@ function App() {
         onValue(ref(db, "users/" + userAuth.uid), (snapshot) => {
           if (!snapshot.exists()) {
             set(ref(db, "users/" + userAuth.uid), {
+              isHome: false,
               group: "none",
               name: userAuth.displayName,
             });
