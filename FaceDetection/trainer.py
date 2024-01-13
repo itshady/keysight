@@ -5,7 +5,7 @@ import time
 
 ##recognizer = cv2.createLBPHFaceRecognizer()
 recognizer = cv2.face.LBPHFaceRecognizer_create()
-detector= cv2.CascadeClassifier("haarcascade_frontalface_default.xml");
+detector= cv2.CascadeClassifier("FaceDetection/haarcascade_frontalface_default.xml");
 
 def getImagesAndLabels(path):
     
@@ -34,9 +34,9 @@ def getImagesAndLabels(path):
     return faceSamples,Ids
 
 
-faces,Ids = getImagesAndLabels('dataSet')
+faces,Ids = getImagesAndLabels('FaceDetection/dataSet')
 print('[+] Analysis in progress...')
 recognizer.train(faces, np.array(Ids))
-recognizer.save('trainer/trainner.yml')
+recognizer.save('FaceDetection/trainer/trainner.yml')
 print('[!!!] Image Analysis Complete!')
 time.sleep(2)

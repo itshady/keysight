@@ -82,6 +82,3 @@ def main():
     print(db.isHome(uids[0]))
     # db.isLeaving(uids[0])
     print(db.isHome(uids[0]))
-
-
-main()

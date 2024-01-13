@@ -17,5 +17,3 @@ def alertclient():
     #     to=target_number
     # )
     # print(message.body)
-
-alertclient()

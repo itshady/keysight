@@ -4,7 +4,7 @@ import time
 import os
 import pyttsx3
 import threading
-# from alert import alertclient
+from alert import alertclient
 from database import Database
 
 
@@ -26,8 +26,8 @@ def unlock():
 
 
 recognizer = cv2.face.LBPHFaceRecognizer_create()
-recognizer.read('trainer/trainner.yml')
-cascadePath = "haarcascade_frontalface_default.xml"
+recognizer.read('FaceDetection/trainer/trainner.yml')
+cascadePath = "FaceDetection/haarcascade_frontalface_default.xml"
 faceCascade = cv2.CascadeClassifier(cascadePath)
 
 cam = cv2.VideoCapture(0)
@@ -68,7 +68,6 @@ while(1):
                         check=1
                         readingA = readingA +1
                         readingU = 0
-                        db.isEntering(uids[0])
                         ##time.sleep(3)
                         
                     
@@ -112,10 +111,12 @@ while(1):
                 readingA=0
                 unlocked = True
                 unlock()
+                db.isEntering(uids[0])
 
-            if(readingU/10>10):
-                print("alerting")
-                # alertclient()
+            if(readingU>70):
+                # print("alerting")
+                alertclient()
+                readingU=0
 
     
     # cv2.namedWindow("keysight", cv2.WINDOW_NORMAL)

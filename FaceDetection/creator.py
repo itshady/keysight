@@ -2,7 +2,7 @@ import numpy as np
 import cv2
 
 igniter = 8880 # just a random number to avoid overwriting file names
-detector= cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+detector= cv2.CascadeClassifier('FaceDetection/haarcascade_frontalface_default.xml')
 cap = cv2.VideoCapture(0)
 
 id =input('enter the ID #')
@@ -15,7 +15,7 @@ while(True):
     for (x,y,w,h) in faces:
         
         sampleNum = sampleNum+1
-        cv2.imwrite("dataSet/User." + str(id) + "." + str(sampleNum*igniter) + ".jpg", gray[y:y+h, x:x+w])
+        cv2.imwrite("FaceDetection/dataSet/User." + str(id) + "." + str(sampleNum*igniter) + ".jpg", gray[y:y+h, x:x+w])
         cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
         cv2.waitKey(150)
     cv2.imshow('frame',img)
