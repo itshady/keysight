@@ -75,10 +75,10 @@ def main():
     # print(u)
     uids = list(u.keys())
     # print(uids)
-    db.addLog(u[uids[0]]["name"], uids[0], datetime.now(), "testing purpose 2")
+    # db.addLog(u[uids[0]]["name"], uids[0], datetime.now(), "testing purpose 2")
     # for key, val in db.getLogs().items():
     #     print(key, val)
-    db.isEntering(uids[0])
+    db.isEntering(uids[1])
     print(db.isHome(uids[0]))
     # db.isLeaving(uids[0])
     print(db.isHome(uids[0]))

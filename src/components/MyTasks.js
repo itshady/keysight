@@ -35,8 +35,9 @@ function MyTasks({ user, uid, db }) {
                   time: entry.time,
                   username: entry.username,
                   useruid: entry.useruid
-              }));
-              setLogs(resultArray);
+              }))
+              resultArray.sort((a, b) => (a.time < b.time) ? 1 : ((b.time < a.time) ? -1 : 0))
+              setLogs(resultArray)
               console.log(resultArray)
             }
           }
