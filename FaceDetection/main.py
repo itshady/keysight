@@ -4,7 +4,8 @@ import time
 import os
 import pyttsx3
 import threading
-import alert
+# from alert import alertclient
+from database import Database
 
 
 
@@ -23,9 +24,6 @@ def unlock():
     #push to firebase
     print("unlocked")
 
-def alert():
-    print("alerting")
-
 
 recognizer = cv2.face.LBPHFaceRecognizer_create()
 recognizer.read('trainer/trainner.yml')
@@ -40,6 +38,10 @@ font2 = cv2.FONT_HERSHEY_DUPLEX
 readingA =0
 readingU=0
 response=""
+
+db = Database()
+u = db.getUsers()
+uids = list(u.keys())
 
 while(1):
 
@@ -66,6 +68,7 @@ while(1):
                         check=1
                         readingA = readingA +1
                         readingU = 0
+                        db.isEntering(uids[0])
                         ##time.sleep(3)
                         
                     
@@ -111,7 +114,8 @@ while(1):
                 unlock()
 
             if(readingU/10>10):
-                alert()
+                print("alerting")
+                # alertclient()
 
     
     # cv2.namedWindow("keysight", cv2.WINDOW_NORMAL)
