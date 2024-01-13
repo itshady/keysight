@@ -19,6 +19,7 @@ const numOverdue = 3;
 function MyTasks({ user, uid, db }) {
   const [groupID, setGroupID] = useState(null);
   const [logs, setLogs] = useState(null);
+  const [selectedLog, setSelectedLog] = useState(null);
 
   useEffect(() => {
     onValue(ref(db, "users/" + uid + "/group"), (snapshot) => {
@@ -36,9 +37,23 @@ function MyTasks({ user, uid, db }) {
                   username: entry.username,
                   useruid: entry.useruid
               }))
-              resultArray.sort((a, b) => (a.time < b.time) ? 1 : ((b.time < a.time) ? -1 : 0))
-              setLogs(resultArray)
-              console.log(resultArray)
+              try {
+                resultArray.sort((a, b) => (a.time < b.time) ? 1 : ((b.time < a.time) ? -1 : 0))
+                setLogs(resultArray)
+                // console.log(resultArray)
+
+                // select the first log in the sorted array
+                if (resultArray.length > 0) {
+                  setSelectedLog(resultArray[0]);
+
+                  // Set the selectedLog back to null after 5 seconds
+                  setTimeout(() => {
+                    setSelectedLog(null);
+                  }, 5000);
+                }
+              } catch (err) {
+                console.log(err)
+              }
             }
           }
         );
@@ -79,6 +94,11 @@ function MyTasks({ user, uid, db }) {
                         />
                       </Box>
                     ))}
+                    <Box>
+                      {selectedLog ? (
+                        selectedLog.username
+                      ) : ("null")}
+                    </Box>
                   </VStack>
                 </Box>
               </VStack>
