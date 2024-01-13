@@ -19,7 +19,7 @@ const numOverdue = 3;
 function MyTasks({ user, uid, db }) {
   const [groupID, setGroupID] = useState(null);
   const [logs, setLogs] = useState(null);
-  const [selectedLog, setSelectedLog] = useState(null);
+  const [alert, setAlert] = useState(null);
 
   useEffect(() => {
     onValue(ref(db, "users/" + uid + "/group"), (snapshot) => {
@@ -44,11 +44,11 @@ function MyTasks({ user, uid, db }) {
 
                 // select the first log in the sorted array
                 if (resultArray.length > 0) {
-                  setSelectedLog(resultArray[0]);
+                  setAlert(resultArray[0]);
 
                   // Set the selectedLog back to null after 5 seconds
                   setTimeout(() => {
-                    setSelectedLog(null);
+                    setAlert(null);
                   }, 5000);
                 }
               } catch (err) {
@@ -95,8 +95,8 @@ function MyTasks({ user, uid, db }) {
                       </Box>
                     ))}
                     <Box>
-                      {selectedLog ? (
-                        selectedLog.username
+                      {alert ? (
+                        alert.username
                       ) : ("null")}
                     </Box>
                   </VStack>
