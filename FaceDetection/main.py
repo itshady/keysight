@@ -54,7 +54,7 @@ while(1):
     faces=faceCascade.detectMultiScale(gray, 1.2,5)
     
     for(x,y,w,h) in faces:
-        cv2.rectangle(im,(x,y),(x+w,y+h),(255,131,96),2)
+        cv2.rectangle(im,(x,y),(x+w,y+h),(96,131,255),2)
         Id, conf = recognizer.predict(gray[y:y+h,x:x+w])
     
         # print("Confidence Level = " + str(conf))
@@ -64,11 +64,6 @@ while(1):
                 if(Id==1):
                     
                     if(conf < 51):
-                        
-                        if talk:
-                            talk = False
-                            t1 = threading.Thread(target=SpeakText, args=("Himanshu",))
-                            t1.start()
                         check=1
                         readingA = readingA +1
                         readingU = 0                        
@@ -99,16 +94,20 @@ while(1):
             # cv2.setWindowProperty("keysight",cv2.WND_PROP_FULLSCREEN,cv2.WINDOW_FULLSCREEN)
             cv2.imshow('keysight', im )
             progress =  str(  (readingA/20)*100 )
-            cv2.putText(im, "Scanning%: " + progress , (10, 450), font, 0.5, (255,255,255) , 2)      
+            cv2.putText(im, "Scanning%: " + progress , (10, 450), font, 1, (96,131,255) , 3)      
 
             if(readingA>=20):
+                if talk:
+                    talk = False
+                    t1 = threading.Thread(target=SpeakText, args=("Himanshu",))
+                    t1.start()
                 readingA=0
                 unlocked = True
                 unlock()
                 db.isEntering(uids[Id-1])
 
             if(readingU>70):
-                alertclient()
+                alertclient("An unrecognized individual is at your door, log-in for more info")
                 readingU=0
 
     

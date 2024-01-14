@@ -2,6 +2,7 @@ import customtkinter as ctk
 from datetime import datetime
 from message_window import MessageWindow
 from PIL import Image
+from alert import alertclient
 
 
 ctk.set_default_color_theme("FaceDetection\cNord_theme.json")
@@ -98,7 +99,7 @@ class App(ctk.CTk):
         self.logo_label.pack(pady=(70, 0))
 
     def sendTextMessage(self, text):
-        print(text)
+        alertclient(text)
 
 
     def recordMessage(self):

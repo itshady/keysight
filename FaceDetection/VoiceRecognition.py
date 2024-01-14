@@ -13,7 +13,9 @@ r = sr.Recognizer()
 #NEEDS TO BE PULLED FROM FIREBASE
 unlocked = False 
 housename = "Bowman"
-keyword = "unlock"
+keyword1 = "unlock"
+keyword2 = "apple"
+keyword3 = "banana"
 
 
 def SpeakText(command):
@@ -24,27 +26,38 @@ def SpeakText(command):
     engine.runAndWait()
 
 def unlock():
-    #push to firebase
     print("unlocked")
-    db.isLeaving(uids[0])
+
+print(db.isHome(uids[0]))
 
 
 while(1):
     try:
         with sr.Microphone() as source:
-            print("Listening...")
+            print("c")
             # wait for a second to let the recognizer adjust the energy threshold based on surrounding noise level 
-            r.adjust_for_ambient_noise(source, duration=0.2)
+            r.adjust_for_ambient_noise(source, duration=0.5)
             
-            audio = r.listen(source, phrase_time_limit=1.5) #listens for the user's input 
+            print("Listening...")
             
+            audio = r.listen(source, phrase_time_limit=3) #listens for the user's input 
             Phrase = r.recognize_google(audio)
             Phrase = Phrase.lower()
-            if (Phrase == keyword):
-                print("keyword detected")
-                unlock()
-
             print("Heard: ", Phrase)
+            
+            if (Phrase==keyword1 and db.isHome(uids[0])):
+                print("keyword detected")
+                db.isLeaving(uids[0])
+                unlock()
+            elif (Phrase==keyword2):
+                print("keyword detected" and db.isHome(uids[1]))
+                db.isLeaving(uids[1])
+                unlock()
+            elif (Phrase==keyword3):
+                print("keyword detected" and db.isHome(uids[2]))
+                db.isLeaving(uids[2])
+                unlock()
+            
 
     except sr.RequestError as e:
         print("Could not request results; {0}".format(e))
