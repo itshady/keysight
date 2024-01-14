@@ -33,7 +33,7 @@ def SpeakText(command):
 
 def unlock():
     #push to firebase
-    with grpc.insecure_channel('192.168.40.51:8081') as channel:
+    with grpc.insecure_channel('192.168.0.167:8081') as channel:
         stub = servo_pb2_grpc.DoorLockStub(channel)
         response = stub.Unlock(servo_pb2.UnlockRequest())
         print("Unlocked client received: " + str(response.success))
@@ -101,7 +101,7 @@ while(1):
             cv2.putText(im, "User "+str(Id), (x - 1, y - 1), font,0.5,(255, 255, 255),2)
 
             cv2.namedWindow("keysight", cv2.WINDOW_NORMAL)
-            cv2.resizeWindow("keysight", 1145, 850)
+            cv2.resizeWindow("keysight", 1140, 740)
             cv2.imshow('keysight', im )
             progress =  str( (readingA/10)*100)
             cv2.putText(im, "SCANNING%: " + progress , (10, 450), font, 0.5, (96,131,255) , 2)      
@@ -123,7 +123,7 @@ while(1):
                 readingU=0
     
     cv2.namedWindow("keysight", cv2.WINDOW_NORMAL)
-    cv2.resizeWindow("keysight", 1145, 800)
+    cv2.resizeWindow("keysight", 1140, 740)
     cv2.imshow('keysight', im )
 
     if cv2.waitKey(10) ==ord('q'):

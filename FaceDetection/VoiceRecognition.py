@@ -10,7 +10,11 @@ import time
 
 db = Database()
 u = db.getUsers()
-uids = list(u.keys())
+uids = [
+    "1j1xpbkPQscOHNcC3Gnmqmr4DFW2",
+    "A8uBHicEI2NjcmCJHfzHOhgbidc2",
+    "hXGLNY5aLChDAbtmBaIBoJdbWEF3"
+]
 
 # Initialize the recognizer 
 r = sr.Recognizer()
@@ -30,7 +34,7 @@ def SpeakText(command):
     engine.runAndWait()
 
 def unlock():
-    with grpc.insecure_channel('192.168.40.51:8081') as channel:
+    with grpc.insecure_channel('192.168.0.167:8081') as channel:
         stub = servo_pb2_grpc.DoorLockStub(channel)
         response = stub.Unlock(servo_pb2.UnlockRequest())
         print("Unlocked client received: " + str(response.success))

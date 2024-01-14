@@ -10,7 +10,7 @@ def main():
     servo_server.DoorLock(), server
   )
 
-  addr = "raspberrypi:8081"
+  addr = "192.168.0.167:8081"
   server.add_insecure_port(addr)
   server.start()
   print("Listening on " + addr)
