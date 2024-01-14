@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import Task from "./Task";
 import { useEffect, useState } from "react";
-import { onValue, ref } from "firebase/database";
+import { onValue, ref, get, child } from "firebase/database";
 import "../App.css";
 import "./myTasks.css"
 const percentageC = 20;
@@ -20,6 +20,7 @@ function MyTasks({ user, uid, db }) {
   const [groupID, setGroupID] = useState(null);
   const [logs, setLogs] = useState(null);
   const [alert, setAlert] = useState(null);
+  const [housemates, setHousemates] = useState(null);
 
   useEffect(() => {
     onValue(ref(db, "users/" + uid + "/group"), (snapshot) => {
@@ -57,9 +58,33 @@ function MyTasks({ user, uid, db }) {
             }
           }
         );
+
+        onValue(
+          ref(db, "groups/" + groupID + "/users"),
+          (snapshot) => {
+            if (snapshot.exists()) {
+
+              const userArray = Object.values(snapshot.val());
+              const userList = [];
+
+              userArray.map((childSnapshot) => {
+                const uid = childSnapshot.uid;
+                const userRef = ref(db, "users/" + uid);
+
+                get(userRef).then((userSnapshot) => {
+                  if (userSnapshot.exists()) userList.push(userSnapshot.val());
+                });
+              });
+
+              setHousemates(userList)
+              console.log("housemates:",housemates)
+            }
+          }
+        );
       }
     });
   }, []);
+
   return (
     <Box w="83%" >
       <VStack align="flex-start" w="100%">
@@ -119,7 +144,14 @@ function MyTasks({ user, uid, db }) {
       <HStack width="100%">
       <Box  width="50%" height="17vh"boxShadow="rgba(99, 99, 99, 0.3) 0px 2px 8px 0px" mr="3" mb="3" mt="0" borderRadius="10px" backgroundColor= "#303036" backdropBlur="50px" border="2px" borderColor="rgba(235, 235, 235, 0.15)" px={4} > 
         <HStack>
-          
+          {housemates && housemates.map((value, index) => (
+            <VStack>
+              <Text key={index}>
+                {value.name}
+                {value.isHome ? "True":"False"}
+              </Text>
+            </VStack>
+          ))}
         </HStack>
       </Box>
       <Box  width="50%" height="17vh"boxShadow="rgba(99, 99, 99, 0.3) 0px 2px 8px 0px" mx="0" mb="3" mt="0" borderRadius="10px" backgroundColor= "#303036" backdropBlur="50px" border="2px" borderColor="rgba(235, 235, 235, 0.15)" px={4} > 
