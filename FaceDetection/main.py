@@ -96,11 +96,10 @@ while(1):
             cv2.putText(im, "User "+str(Id), (x - 1, y - 1), font,0.5,(255, 255, 255),2)
 
             cv2.namedWindow("keysight", cv2.WINDOW_NORMAL)
-            # cv2.namedWindow("keysight", cv2.WND_PROP_FULLSCREEN) 
-            # cv2.setWindowProperty("keysight",cv2.WND_PROP_FULLSCREEN,cv2.WINDOW_FULLSCREEN)
+            cv2.resizeWindow("keysight", 1145, 850)
             cv2.imshow('keysight', im )
-            progress =  str(  (readingA/20)*100 )
-            cv2.putText(im, "Scanning%: " + progress , (10, 450), font, 1, (96,131,255) , 3)      
+            progress =  str( (readingA/10)*100)
+            cv2.putText(im, "SCANNING%: " + progress , (10, 450), font, 0.5, (96,131,255) , 2)      
 
             if(readingA>=10):
                 if talk:
@@ -112,11 +111,12 @@ while(1):
                 db.isEntering(uids[Id-1])
 
             if(readingU>70):
+                cv2.putText(im, "ALERTING" + progress , (400, 450), font, 0.5, (0,0,255) , 2)
                 alertclient("An unrecognized individual is at your door, log-in for more info")
                 readingU=0
-
     
-    # cv2.namedWindow("keysight", cv2.WINDOW_NORMAL)
+    cv2.namedWindow("keysight", cv2.WINDOW_NORMAL)
+    cv2.resizeWindow("keysight", 1145, 850)
     cv2.imshow('keysight', im )
 
     if cv2.waitKey(10) ==ord('q'):

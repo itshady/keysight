@@ -16,7 +16,7 @@ class App(ctk.CTk):
     def __init__(self): # initializes, for all tkinter code, you find replace app with self
         super().__init__()
         self.title('keysight')
-        self.geometry('400x1400')
+        self.geometry('400x1400+1420+0')
         self.msg_window = None
         self.create_welcome_screen()
         self.minsize(200, 800)
@@ -70,6 +70,15 @@ class App(ctk.CTk):
         self.switch_var = ctk.StringVar(value=ctk.get_appearance_mode())
         self.switch = ctk.CTkButton(self.top_frame, text=self.update_theme(), command=self.theme_event, width=30, height=30)  
         self.switch.pack(side="right", pady=10, padx=10)
+
+
+
+        logo_title = ctk.CTkImage(light_image=Image.open("src\styles\Icon.png"),
+                                  dark_image=Image.open("src\styles\Icon_light.png"),
+                                  size=(70 * 5, 25 * 5))
+
+        self.logo_label = ctk.CTkLabel(self.welcome_frame, image=logo_title, text="")
+        self.logo_label.pack(pady=(50, 20))
 
         ctk.CTkButton(self.welcome_frame, text='Delivery', command=self.show_delivery_menu).pack(pady=10, padx=(10, 0))
         ctk.CTkButton(self.welcome_frame, text='Request to Talk', command=lambda:self.sendTextMessage("Hi, someone is at your door and want to talk to you. Check out our app to see what is going on.")).pack(pady=10, padx=(10, 0))

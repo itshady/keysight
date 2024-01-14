@@ -17,10 +17,9 @@ r = sr.Recognizer()
 
 #NEEDS TO BE PULLED FROM FIREBASE
 unlocked = False 
-housename = "Bowman"
 keyword1 = "unlock"
-keyword2 = "apple"
-keyword3 = "banana"
+keyword2 = "leaving"
+keyword3 = "open"
 
 
 def SpeakText(command):
@@ -42,11 +41,11 @@ while(1):
         with sr.Microphone() as source:
             print("c")
             # wait for a second to let the recognizer adjust the energy threshold based on surrounding noise level 
-            r.adjust_for_ambient_noise(source, duration=0.5)
+            r.adjust_for_ambient_noise(source, duration=0.2)
             
             print("Listening...")
             
-            audio = r.listen(source, phrase_time_limit=3) #listens for the user's input 
+            audio = r.listen(source, phrase_time_limit=2) #listens for the user's input 
             Phrase = r.recognize_google(audio)
             Phrase = Phrase.lower()
             print("Heard: ", Phrase)
