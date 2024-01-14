@@ -100,7 +100,10 @@ function Settings({ user, uid, db }) {
       <HStack mt="5">
       {group ? (
         <Box w="100%">
-            <Input type="email" value={inputInviteMember} onChange={handleInputChangeInviteMember} height="40px" width="90%"  textColor="white" placeholder="Email Address" p="2" fontSize="10px" focusBorderColor="#FF8360" />
+            <Input type="email" value={inputInviteMember} onChange={handleInputChangeInviteMember} height="40px" width="83%"  textColor="white" placeholder="Email Address" p="2" fontSize="10px" focusBorderColor="#FF8360" />
+            <Button ml="3" bgColor="#333" textColor="#AEC6CF" borderColor="#AEC6CF" _hover={{ bgColor: '#AEC6CF', textColor: 'white' }} onClick={inviteMember} variant="outline" height="40px" fontSize="10px">
+            Invite Member 
+            </Button>
             <Button ml="3" bgColor="#333" textColor="#FF8360" borderColor="#FF8360" _hover={{ bgColor: '#FF8360', textColor: 'white' }} onClick={leaveGroup} variant="outline" height="40px" fontSize="10px">
               Leave 
             </Button>
