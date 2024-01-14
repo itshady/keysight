@@ -19,7 +19,7 @@ function Task({ user, name, purpose, datetime }) {
   return (
 <Box pl={4} pr={2} w="full">
   <Flex w="full" justifyContent="space-between">
-    <Avatar as="span" name={name} size="xs" src={profilePhoto} > </Avatar>
+    <Avatar as="span" name={name} size="xs"  > </Avatar>
     <Text pl="3" color="white" flex="1">{name}</Text>
     <Box flex="2">
     <Tag width="170px" colorScheme={purpose === "Leave" ? "red" : purpose === "Enter" ? "green" : "blue"}>

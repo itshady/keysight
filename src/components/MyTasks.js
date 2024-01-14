@@ -2,7 +2,7 @@ import {
   Box,
   VStack,
   HStack,
-  Text,Heading, Flex, Divider,
+  Text,Heading, Flex, Divider, Avatar, AvatarBadge, AvatarGroup,
   Tooltip,
   CircularProgress,
   CircularProgressLabel,
@@ -12,6 +12,9 @@ import { useEffect, useState } from "react";
 import { onValue, ref, get, child } from "firebase/database";
 import "../App.css";
 import "./myTasks.css"
+import { FaHouseUser } from "react-icons/fa";
+import { MdOutlineKeyboardDoubleArrowUp } from "react-icons/md";
+
 const percentageC = 20;
 const numTasks = 20;
 const numOverdue = 3;
@@ -142,28 +145,56 @@ function MyTasks({ user, uid, db }) {
       </Box>
       </Box>
       <HStack width="100%">
-      <Box  width="50%" height="17vh"boxShadow="rgba(99, 99, 99, 0.3) 0px 2px 8px 0px" mr="3" mb="3" mt="0" borderRadius="10px" backgroundColor= "#303036" backdropBlur="50px" border="2px" borderColor="rgba(235, 235, 235, 0.15)" px={4} > 
-        <HStack>
-          {housemates && housemates.map((value, index) => (
-            <VStack>
-              <Text key={index}>
-                {value.name}
-                {value.isHome ? "True":"False"}
-              </Text>
-            </VStack>
-          ))}
-        </HStack>
+      <Box  width="50%" height="17vh" boxShadow="rgba(99, 99, 99, 0.3) 0px 2px 8px 0px" mr="3" mb="3" mt="0" borderRadius="10px" backgroundColor= "#303036" backdropBlur="50px" border="2px" borderColor="rgba(235, 235, 235, 0.15)" px={4} > 
+      <Box p="5">
+      <HStack align="center" pb="3">
+        <FaHouseUser  color="white" />
+        <Heading textColor="white" fontSize="20px">
+          Currently in the House
+        </Heading>
+      </HStack>
+            
+      <HStack> 
+        <AvatarGroup size='md' max={3}>
+        {housemates &&
+          housemates
+            .filter((value) => value.isHome)
+            .map((value, index) => (
+              <VStack align="left" width="100%" key={index}>
+                <Tooltip
+                  hasArrow
+                  label={value.name}
+                  bg='gray.300'
+                  color='white'
+                  placement='top'
+                  boxShadow="rgba(99, 99, 99, 0.3) 0px 2px 8px 0px"
+                  borderRadius="4px"
+                  backgroundColor="#303036"
+                  backdropBlur="50px"
+                  border="2px"
+                  borderColor="rgba(235, 235, 235, 0.15)"
+                >
+                  <Avatar as="span" name={value.name} size="md"><AvatarBadge boxSize='1.25em' bg='green.500' borderColor="#303036" /></Avatar>
+                </Tooltip>
+              </VStack>
+            ))}
+        </AvatarGroup>
+        
+      </HStack>
+      </Box>
       </Box>
       <Box  width="50%" height="17vh"boxShadow="rgba(99, 99, 99, 0.3) 0px 2px 8px 0px" mx="0" mb="3" mt="0" borderRadius="10px" backgroundColor= "#303036" backdropBlur="50px" border="2px" borderColor="rgba(235, 235, 235, 0.15)" px={4} > 
-      
+       
       </Box>
       </HStack>
       <HStack width="100%">
       <Box  width="70%" height="7.5vh"boxShadow="rgba(99, 99, 99, 0.3) 0px 2px 8px 0px" mr="3" mb="3" mt="0" borderRadius="10px" backgroundColor= "#303036" backdropBlur="50px" border="2px" borderColor="rgba(235, 235, 235, 0.15)" px={4} > 
-      
+       
       </Box>
-      <Box  width="30%" height="7.5vh"boxShadow="rgba(99, 99, 99, 0.3) 0px 2px 8px 0px" mx="0" mb="3" mt="0" borderRadius="10px" backgroundColor= "#303036" backdropBlur="50px" border="2px" borderColor="rgba(235, 235, 235, 0.15)" px={4} > 
-      
+      <Box  width="30%" height="7.5vh" boxShadow="rgba(99, 99, 99, 0.3) 0px 2px 8px 0px" mx="0" mb="3" mt="0" borderRadius="10px" backgroundColor= "#FF8360" backdropBlur="50px" border="2px" borderColor="rgba(235, 235, 235, 0.15)" px={4} > 
+        <HStack align="center" height="100%">
+        <MdOutlineKeyboardDoubleArrowUp color="white" fontSize="45px"/>
+        </HStack>
       </Box>
       </HStack>
       
