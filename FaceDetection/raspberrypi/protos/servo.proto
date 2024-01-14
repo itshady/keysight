@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package DoorLock;
+
+service DoorLock {
+  rpc Unlock (UnlockRequest) returns (UnlockResponse) {}
+
+  rpc Lock (LockRequest) returns (LockResponse) {}
+}
+
+message UnlockRequest {}
+message LockRequest {}
+
+message UnlockResponse {
+  int32 success = 1;
+}
+
+message LockResponse {
+  int32 success = 1;
+}
