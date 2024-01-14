@@ -85,9 +85,11 @@ function MyTasks({ user, uid, db }) {
         // console.log("snap:", snapshot.val())
       }
     });
+  }, []);
 
+  useEffect(() => {
     onValue(
-      ref(db, "logs"),
+      ref(db, "logs" + groupID),
       (snapshot) => {
         if (snapshot.exists()) {
           const resultArray = Object.values(snapshot.val()).map(entry => ({
@@ -119,7 +121,7 @@ function MyTasks({ user, uid, db }) {
         }
       }
     );
-  }, []);
+  }, [groupID]);
 
   useEffect(() => {
     onValue(ref(db, "users/"),

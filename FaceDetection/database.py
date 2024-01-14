@@ -25,15 +25,15 @@ class Database:
        #if the userid is the same as the one in the database, set status to true, else do nothing
         user_node_ref = self.users_ref.child(user)
         user_node_ref.update({'isHome': True})
-        name = self.getUser(user)["name"]
-        self.addLog(name, user, datetime.now(), "Enter")
+        u = self.getUser(user)
+        self.addLog(u["name"], u["group"], user, datetime.now(), "Enter")
 
     #if the user is leaving, the python program should call, isLeaving() -> addLog(user, time, "[user] has left the house.")
     def isLeaving(self, user):
         user_node_ref = self.users_ref.child(user)
         user_node_ref.update({'isHome': False})
-        name = self.getUser(user)["name"]
-        self.addLog(name, user, datetime.now(), "Leave")
+        u = self.getUser(user)
+        self.addLog(u["name"], u["group"], user, datetime.now(), "Leave")
 
     # returns true if the user is home, else false
     def isHome(self, user) -> bool:
@@ -46,9 +46,9 @@ class Database:
     # the idea is that to add a log, from himanshus python file the options are: 
     # if the person is recognized and they are entering -> user is notted down, time is notted down, purpose is "Entered the house."
     # if the person is not recognized, the python program asks for their reason to enter -> user is jotted down as guest, time is notted down, purpose is defined based on the python popup or the voice recognition item
-    def addLog(self, username, useruid, datetime, purpose="none") -> None:        
+    def addLog(self, username, group, useruid, datetime, purpose="none") -> None:        
         key = str(uuid.uuid4())
-        self.logs_ref.child(key).set({
+        self.logs_ref.child(group).child(key).set({
             'time': datetime.isoformat(),
             'useruid': useruid,
             'purpose': purpose,
