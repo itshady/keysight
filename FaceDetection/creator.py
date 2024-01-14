@@ -20,7 +20,7 @@ while(True):
         cv2.waitKey(150)
     cv2.imshow('frame',img)
     cv2.waitKey(2)
-    if(sampleNum > 210):
+    if(sampleNum > 250):
         break
 cap.release()
 cv2.destroyAllWindows()
