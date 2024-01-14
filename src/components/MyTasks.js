@@ -44,6 +44,7 @@ function MyTasks({ user, uid, db }) {
   const [groupID, setGroupID] = useState(null);
   const [logs, setLogs] = useState(null);
   const [alert, setAlert] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [housemates, setHousemates] = useState(null);
   const [size, setSize] = React.useState('')
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -101,7 +102,7 @@ function MyTasks({ user, uid, db }) {
             // console.log(resultArray)
 
             // select the first log in the sorted array
-            if (resultArray.length > 0) {
+            if (!loading && resultArray.length > 0) {
               setAlert(resultArray[0]);
 
               // Set the selectedLog back to null after 5 seconds
@@ -109,13 +110,18 @@ function MyTasks({ user, uid, db }) {
                 setAlert(null);
               }, 5000);
             }
+            if (loading) {
+              setLoading(false)
+            }
           } catch (err) {
             console.log(err)
           }
         }
       }
     );
+  }, []);
 
+  useEffect(() => {
     onValue(ref(db, "users/"),
       (snapshot) => {
         onValue(
@@ -141,7 +147,7 @@ function MyTasks({ user, uid, db }) {
         );
       }
     )
-  }, []);
+  }, [groupID]);
 
   
 
@@ -166,7 +172,7 @@ function MyTasks({ user, uid, db }) {
           <Text color="white" flex="1" pr="3">Date</Text>
         </Flex>
       <Divider  mt="1"/>
-      <Box key={uid} w="full" overflowY="scroll" height="360px">
+      <Box key={uid} w="full" height="360px">
           {!logs ? null : (
             <VStack w="full" h="full" justifyContent="space-between">
               <VStack w="full">
@@ -175,6 +181,7 @@ function MyTasks({ user, uid, db }) {
                     overflowY="auto"
                     py={2}
                     borderRadius={4}
+                    h="45vh"
                   >
                     {logs.map((value, index) => (
                       <Box w="full" pt="1.5">
@@ -233,9 +240,9 @@ function MyTasks({ user, uid, db }) {
       </HStack>
       </Box>
       </Box>
-      <Box  width="50%" height="17vh"boxShadow="rgba(99, 99, 99, 0.3) 0px 2px 8px 0px" mx="0" mb="3" mt="0" borderRadius="10px" backgroundColor= "#303036" backdropBlur="50px" border="2px" borderColor="rgba(235, 235, 235, 0.15)" px={4} > 
-      <Image src={graph} height="130" pt="2"/>
-      </Box>
+      <HStack justifyContent={"center"} width="50%" height="17vh" boxShadow="rgba(99, 99, 99, 0.3) 0px 2px 8px 0px" mx="0" mb="3" mt="0" borderRadius="10px" backgroundColor= "#303036" backdropBlur="50px" border="2px" borderColor="rgba(235, 235, 235, 0.15)" px={4} > 
+      <Image src={graph} style={{"height": "-webkit-fill-available"}} pt="2"/>
+      </HStack>
       </HStack>
       <HStack width="100%">
       <Box align="center" width="70%" height="7.5vh"boxShadow="rgba(99, 99, 99, 0.3) 0px 2px 8px 0px" mr="3" mb="3" mt="0" borderRadius="10px" backgroundColor= "#303036" backdropBlur="50px" border="2px" borderColor="rgba(235, 235, 235, 0.15)" px={4} > 
