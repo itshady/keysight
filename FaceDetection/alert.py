@@ -7,13 +7,13 @@ twilio_number = '+14406932491'
 target_number = '+16135815074'
 #AFDU5C5URSZT1R1ABBSBDWQK
 
-def alertclient():
+def alertclient(text):
     print("alerted")
-    # client = Client(account_sid, auth_token)
+    client = Client(account_sid, auth_token)
 
-    # message = client.messages.create(
-    #     body="An unrecognized individual is at your door, log-in for more info",
-    #     from_=twilio_number,
-    #     to=target_number
-    # )
-    # print(message.body)
+    message = client.messages.create(
+        body=text,
+        from_=twilio_number,
+        to=target_number
+    )
+    print(message.body)
