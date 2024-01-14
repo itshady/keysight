@@ -82,14 +82,13 @@ function MyTasks({ user, uid, db }) {
     get(groupRef).then((snapshot) => {
       if (snapshot.exists()) {
         setGroupID(snapshot.val())
-        // console.log("snap:", snapshot.val())
       }
     });
   }, []);
 
   useEffect(() => {
     onValue(
-      ref(db, "logs" + groupID),
+      ref(db, "logs/" + groupID),
       (snapshot) => {
         if (snapshot.exists()) {
           const resultArray = Object.values(snapshot.val()).map(entry => ({
@@ -101,16 +100,18 @@ function MyTasks({ user, uid, db }) {
           try {
             resultArray.sort((a, b) => (a.time < b.time) ? 1 : ((b.time < a.time) ? -1 : 0))
             setLogs(resultArray)
-            // console.log(resultArray)
-
+            
             // select the first log in the sorted array
             if (!loading && resultArray.length > 0) {
               setAlert(resultArray[0]);
+              console.log("alerting....")
 
               // Set the selectedLog back to null after 5 seconds
               setTimeout(() => {
                 setAlert(null);
               }, 5000);
+            } else{
+              console.log("not alerting....")
             }
             if (loading) {
               setLoading(false)
@@ -143,7 +144,6 @@ function MyTasks({ user, uid, db }) {
               });
     
               setHousemates(userList)
-              console.log("housemates:",housemates)
             }
           }
         );
