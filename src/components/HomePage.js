@@ -32,8 +32,8 @@ function HomePage({ user, uid, db, logIn }) {
         <HomeNavbar logIn={logIn} width="100%" height="10vh"/>
         <HStack width="100%" height="90vh">
             <Box padding={10} width="45%" height="100%">
-            <Heading textColor="white" pb="5" fontFamily="Arial" fontSize="60px">
-              Smart-Security access <br />
+            <Heading textColor="white" pb="5" fontFamily="Arial" fontSize="54px">
+              Smart-security access <br />
               all in a{" "}
               <Text as="span" color="#FF8360" textDecoration="underline">
                 sight
