@@ -28,6 +28,7 @@ def SpeakText(command):
     engine.setProperty('rate',145)
     engine.say(command) 
     engine.runAndWait()
+    talk = True
     
 
 def unlock():
@@ -50,7 +51,11 @@ font2 = cv2.FONT_HERSHEY_DUPLEX
 
 db = Database()
 u = db.getUsers()
-uids = list(u.keys())
+uids = [
+    "1j1xpbkPQscOHNcC3Gnmqmr4DFW2",
+    "A8uBHicEI2NjcmCJHfzHOhgbidc2",
+    "hXGLNY5aLChDAbtmBaIBoJdbWEF3"
+]
 
 
 while(1):
@@ -78,7 +83,7 @@ while(1):
                     readingA = readingA +1
                     readingU = 0
 
-                elif(Id==3 and db.isHome(uids[2])):
+                elif(Id==3 and not db.isHome(uids[2])):
                     readingA = readingA +1
                     readingU = 0
                 elif(Id==4):     
@@ -104,8 +109,10 @@ while(1):
             if(readingA>=10):
                 if talk:
                     talk = False
-                    SpeakText("Welcome back " + db.getName(uids[Id-1]))
-                    talk = True
+                    t1 = threading.Thread(target=SpeakText, args=("Welcome back " + db.getName(uids[Id-1]),))
+                    t1.start()
+                    # SpeakText("Welcome back " + db.getName(uids[Id-1]))
+                    # talk = True
                 readingA=0
                 unlock()
                 db.isEntering(uids[Id-1])
@@ -116,7 +123,7 @@ while(1):
                 readingU=0
     
     cv2.namedWindow("keysight", cv2.WINDOW_NORMAL)
-    cv2.resizeWindow("keysight", 1145, 850)
+    cv2.resizeWindow("keysight", 1145, 800)
     cv2.imshow('keysight', im )
 
     if cv2.waitKey(10) ==ord('q'):
