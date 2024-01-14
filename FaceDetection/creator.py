@@ -19,7 +19,7 @@ while(True):
         cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2)
         cv2.waitKey(150)
     cv2.imshow('frame',img)
-    cv2.waitKey(1)
+    cv2.waitKey(2)
     if(sampleNum > 210):
         break
 cap.release()
