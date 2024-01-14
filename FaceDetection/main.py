@@ -12,6 +12,7 @@ from database import Database
 #NEEDS TO BE PULLED FROM FIREBASE
 unlocked = False 
 housename = "Bowman"
+#user names
 
 def SpeakText(command):
 	
@@ -38,6 +39,8 @@ font2 = cv2.FONT_HERSHEY_DUPLEX
 readingA =0
 readingU=0
 response=""
+talk = True
+
 
 db = Database()
 u = db.getUsers()
@@ -51,54 +54,45 @@ while(1):
     faces=faceCascade.detectMultiScale(gray, 1.2,5)
     
     for(x,y,w,h) in faces:
-        cv2.rectangle(im,(x,y),(x+w,y+h),(225,0,0),2)
+        cv2.rectangle(im,(x,y),(x+w,y+h),(255,131,96),2)
         Id, conf = recognizer.predict(gray[y:y+h,x:x+w])
     
         # print("Confidence Level = " + str(conf))
         if unlocked == False:
             if(conf<46):               
-                color = (0,255,0) ## update GREEN
+                color = (0,255,0)
                 if(Id==1):
                     
-                    Id="User1"
                     if(conf < 51):
-                        #t1 = threading.Thread(target=SpeakText, args=("Himanshu",))
-                        #t1.start()
-                        # response = "START.mp3"
+                        
+                        if talk:
+                            talk = False
+                            t1 = threading.Thread(target=SpeakText, args=("Himanshu",))
+                            t1.start()
                         check=1
                         readingA = readingA +1
-                        readingU = 0
-                        ##time.sleep(3)
-                        
+                        readingU = 0                        
                     
                 elif(Id==2):
-                    Id="User2"
                     readingA = readingA +1
                     readingU = 0
-                    # response = "USER1.mp3"
 
                 elif(Id==3):
-                    Id="User3"
                     readingA = readingA +1
                     readingU = 0
-                    # response = "USER2.mp3"
-                elif(Id==4):
-                    Id="User4"      
+                elif(Id==4):     
                     readingA = readingA +1
                     readingU = 0
-                    # response = "USER3.mp3"
                 elif(Id==5):
-                    Id="User5" 
                     readingA = readingA +1
                     readingU = 0
-                    # response = "USER4.mp3"
                     
             else:
                 Id="Unknown"
                 readingA=0
                 readingU = readingU + 1
             
-            cv2.putText(im, Id, (x - 1, y - 1), font,0.5,(0, 255, 0),2)
+            cv2.putText(im, "User "+str(Id), (x - 1, y - 1), font,0.5,(255, 255, 255),2)
 
             cv2.namedWindow("keysight", cv2.WINDOW_NORMAL)
             # cv2.namedWindow("keysight", cv2.WND_PROP_FULLSCREEN) 
@@ -111,10 +105,9 @@ while(1):
                 readingA=0
                 unlocked = True
                 unlock()
-                db.isEntering(uids[0])
+                db.isEntering(uids[Id-1])
 
             if(readingU>70):
-                # print("alerting")
                 alertclient()
                 readingU=0
 
