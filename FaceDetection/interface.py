@@ -1,8 +1,10 @@
 import customtkinter as ctk
 from datetime import datetime
 from message_window import MessageWindow
-from PIL import Image
+from PIL import Image, ImageTk
 from alert import alertclient
+import cv2
+import numpy as np
 
 
 ctk.set_default_color_theme("FaceDetection\cNord_theme.json")
@@ -13,15 +15,14 @@ ctk.set_appearance_mode("system")
 class App(ctk.CTk):
     def __init__(self): # initializes, for all tkinter code, you find replace app with self
         super().__init__()
-        self.title('Pacemaker')
-        self.geometry('1400x700')
+        self.title('keysight')
+        self.geometry('400x1400')
         self.msg_window = None
-        self.create_sidebar()
         self.create_welcome_screen()
         self.minsize(200, 800)
-    def create_sidebar(self):
-        self.sidebar_frame = ctk.CTkFrame(self, width=1000)
-        self.sidebar_frame.pack(side='left', fill='y')
+
+
+
 
     def back_to_welcome(self):
         for widget in self.winfo_children():
