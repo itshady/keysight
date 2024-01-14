@@ -74,67 +74,73 @@ function MyTasks({ user, uid, db }) {
     setSize(newSize)
     onOpen()
   }
+
   useEffect(() => {
-    onValue(ref(db, "users/" + uid + "/group"), (snapshot) => {
+    const groupRef = ref(db, "users/" + uid + "/group");
+
+    get(groupRef).then((snapshot) => {
       if (snapshot.exists()) {
-        const groupID = snapshot.val();
-        setGroupID(groupID);
+        setGroupID(snapshot.val())
+        // console.log("snap:", snapshot.val())
+      }
+    });
 
-        onValue(
-          ref(db, "logs"),
-          (snapshot) => {
-            if (snapshot.exists()) {
-              const resultArray = Object.values(snapshot.val()).map(entry => ({
-                  purpose: entry.purpose,
-                  time: entry.time,
-                  username: entry.username,
-                  useruid: entry.useruid
-              }))
-              try {
-                resultArray.sort((a, b) => (a.time < b.time) ? 1 : ((b.time < a.time) ? -1 : 0))
-                setLogs(resultArray)
-                // console.log(resultArray)
+    onValue(
+      ref(db, "logs"),
+      (snapshot) => {
+        if (snapshot.exists()) {
+          const resultArray = Object.values(snapshot.val()).map(entry => ({
+              purpose: entry.purpose,
+              time: entry.time,
+              username: entry.username,
+              useruid: entry.useruid
+          }))
+          try {
+            resultArray.sort((a, b) => (a.time < b.time) ? 1 : ((b.time < a.time) ? -1 : 0))
+            setLogs(resultArray)
+            // console.log(resultArray)
 
-                // select the first log in the sorted array
-                if (resultArray.length > 0) {
-                  setAlert(resultArray[0]);
+            // select the first log in the sorted array
+            if (resultArray.length > 0) {
+              setAlert(resultArray[0]);
 
-                  // Set the selectedLog back to null after 5 seconds
-                  setTimeout(() => {
-                    setAlert(null);
-                  }, 5000);
-                }
-              } catch (err) {
-                console.log(err)
-              }
+              // Set the selectedLog back to null after 5 seconds
+              setTimeout(() => {
+                setAlert(null);
+              }, 5000);
             }
+          } catch (err) {
+            console.log(err)
           }
-        );
+        }
+      }
+    );
 
+    onValue(ref(db, "users/"),
+      (snapshot) => {
         onValue(
           ref(db, "groups/" + groupID + "/users"),
           (snapshot) => {
             if (snapshot.exists()) {
-
               const userArray = Object.values(snapshot.val());
               const userList = [];
-
+    
               userArray.map((childSnapshot) => {
                 const uid = childSnapshot.uid;
                 const userRef = ref(db, "users/" + uid);
-
+    
                 get(userRef).then((userSnapshot) => {
                   if (userSnapshot.exists()) userList.push(userSnapshot.val());
                 });
               });
-
+    
               setHousemates(userList)
               console.log("housemates:",housemates)
             }
           }
         );
       }
-    });
+    )
   }, []);
 
   
