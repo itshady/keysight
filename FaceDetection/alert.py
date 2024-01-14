@@ -9,11 +9,11 @@ target_number = '+16135815074'
 
 def alertclient(text):
     print("alerted")
-    client = Client(account_sid, auth_token)
+    # client = Client(account_sid, auth_token)
 
-    message = client.messages.create(
-        body=text,
-        from_=twilio_number,
-        to=target_number
-    )
-    print(message.body)
+    # message = client.messages.create(
+    #     body=text,
+    #     from_=twilio_number,
+    #     to=target_number
+    # )
+    # print(message.body)
