@@ -191,16 +191,24 @@ function MyTasks({ user, uid, db }) {
       <Box  width="70%" height="7.5vh"boxShadow="rgba(99, 99, 99, 0.3) 0px 2px 8px 0px" mr="3" mb="3" mt="0" borderRadius="10px" backgroundColor= "#303036" backdropBlur="50px" border="2px" borderColor="rgba(235, 235, 235, 0.15)" px={4} > 
        
       </Box>
-      <Box  width="30%" height="7.5vh" boxShadow="rgba(99, 99, 99, 0.3) 0px 2px 8px 0px" mx="0" mb="3" mt="0" borderRadius="10px" backgroundColor= "#FF8360" backdropBlur="50px" border="2px" borderColor="rgba(235, 235, 235, 0.15)" px={4} > 
-        <HStack align="center" height="100%">
-        <MdOutlineKeyboardDoubleArrowUp color="white" fontSize="45px"/>
-        </HStack>
-      </Box>
+      <Box align="center" overflow="hidden" width="30%" height="7.5vh" boxShadow="rgba(99, 99, 99, 0.3) 0px 2px 8px 0px" mx="0" mb="3" mt="0" borderRadius="10px" backgroundColor="#FF8360" backdropBlur="50px" border="2px" borderColor="rgba(235, 235, 235, 0.15)" px={4}>
+  <HStack align="center" height="100%" width="100%" justifyContent="center" alignItems="center">
+    <MdOutlineKeyboardDoubleArrowUp color="white" fontSize="45px" />
+    <MdOutlineKeyboardDoubleArrowUp color="white" fontSize="45px" />
+    <Heading color="white" fontSize="35px">Notes</Heading>
+    <MdOutlineKeyboardDoubleArrowUp color="white" fontSize="45px" />
+    <MdOutlineKeyboardDoubleArrowUp color="white" fontSize="45px" />
+  </HStack>
+</Box>
+
       </HStack>
       
       </VStack>
     </Box>
   );
 }
+
+
+
 
 export default MyTasks;

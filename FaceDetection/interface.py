@@ -14,10 +14,14 @@ class App(ctk.CTk):
     def __init__(self): # initializes, for all tkinter code, you find replace app with self
         super().__init__()
         self.title('Pacemaker')
-        self.geometry('400x700')
+        self.geometry('1400x700')
         self.msg_window = None
+        self.create_sidebar()
         self.create_welcome_screen()
-        self.minsize(200,800)
+        self.minsize(200, 800)
+    def create_sidebar(self):
+        self.sidebar_frame = ctk.CTkFrame(self, width=1000)
+        self.sidebar_frame.pack(side='left', fill='y')
 
     def back_to_welcome(self):
         for widget in self.winfo_children():
@@ -44,7 +48,7 @@ class App(ctk.CTk):
     def create_welcome_screen(self):
         self.update_theme()
         self.welcome_frame = ctk.CTkFrame(self)
-        self.welcome_frame.pack(fill='both', expand=True)
+        self.welcome_frame.pack(side='right', fill='both', expand=True)
 
         self.top_frame = ctk.CTkFrame(self.welcome_frame)
         self.top_frame.pack(fill='x', pady=20, padx=20)
@@ -100,6 +104,7 @@ class App(ctk.CTk):
 
     def sendTextMessage(self, text):
         alertclient(text)
+        print("test")
 
 
     def recordMessage(self):
