@@ -6,6 +6,7 @@ import pyttsx3
 import threading
 from alert import alertclient
 from database import Database
+import customtkinter as ctk
 
 # GRPC STUFF
 import grpc
@@ -13,17 +14,21 @@ from raspberrypi.doorlock import servo_pb2_grpc
 from raspberrypi.doorlock import servo_pb2
 import time
 
-#NEEDS TO BE PULLED FROM FIREBASE
+
 unlocked = False 
-housename = "Bowman"
-#user names
+readingA =0
+readingU=0
+response=""
+talk = True
+
 
 def SpeakText(command):
-	
-	engine = pyttsx3.init()
-	engine.setProperty('rate',145)
-	engine.say(command) 
-	engine.runAndWait()
+    
+    engine = pyttsx3.init()
+    engine.setProperty('rate',145)
+    engine.say(command) 
+    engine.runAndWait()
+    
 
 def unlock():
     #push to firebase
@@ -31,8 +36,7 @@ def unlock():
         stub = servo_pb2_grpc.DoorLockStub(channel)
         response = stub.Unlock(servo_pb2.UnlockRequest())
         print("Unlocked client received: " + str(response.success))
-    # print("unlocked")
-
+    unlocked = False
 
 recognizer = cv2.face.LBPHFaceRecognizer_create()
 recognizer.read('FaceDetection/trainer/trainner.yml')
@@ -44,18 +48,12 @@ font = cv2.FONT_HERSHEY_SIMPLEX
 font2 = cv2.FONT_HERSHEY_DUPLEX
 
 
-readingA =0
-readingU=0
-response=""
-talk = True
-
-
 db = Database()
 u = db.getUsers()
 uids = list(u.keys())
 
-while(1):
 
+while(1):
     color = (0,0,255) ## RED
     ret, im =cam.read()
     gray=cv2.cvtColor(im,cv2.COLOR_BGR2GRAY)
@@ -69,18 +67,18 @@ while(1):
         if unlocked == False:
             if(conf<46):               
                 color = (0,255,0)
-                if(Id==1):
+                if(Id==1 and not db.isHome(uids[0])):
                     
                     if(conf < 51):
                         check=1
                         readingA = readingA +1
                         readingU = 0                        
                     
-                elif(Id==2):
+                elif(Id==2 and not db.isHome(uids[1])):
                     readingA = readingA +1
                     readingU = 0
 
-                elif(Id==3):
+                elif(Id==3 and db.isHome(uids[2])):
                     readingA = readingA +1
                     readingU = 0
                 elif(Id==4):     
@@ -104,13 +102,12 @@ while(1):
             progress =  str(  (readingA/20)*100 )
             cv2.putText(im, "Scanning%: " + progress , (10, 450), font, 1, (96,131,255) , 3)      
 
-            if(readingA>=20):
+            if(readingA>=10):
                 if talk:
                     talk = False
-                    t1 = threading.Thread(target=SpeakText, args=("Himanshu",))
-                    t1.start()
+                    SpeakText("Welcome back " + db.getName(uids[Id-1]))
+                    talk = True
                 readingA=0
-                unlocked = True
                 unlock()
                 db.isEntering(uids[Id-1])
 

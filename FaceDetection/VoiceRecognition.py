@@ -36,8 +36,6 @@ def unlock():
         response = stub.Unlock(servo_pb2.UnlockRequest())
         print("Unlocked client received: " + str(response.success))
 
-print(db.isHome(uids[0]))
-
 
 while(1):
     try:
