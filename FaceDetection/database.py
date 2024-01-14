@@ -67,3 +67,6 @@ class Database:
     def getUser(self, uid):
         users = self.getUsers()
         return users[uid]
+    
+    def getName(self, user):
+        return self.getUser(user)["name"]
