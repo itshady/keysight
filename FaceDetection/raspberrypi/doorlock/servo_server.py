@@ -25,10 +25,15 @@ class DoorLock(servo_pb2_grpc.DoorLock):
     p.start(0)               # Starts running PWM on the pin and sets it to 0
 
     # THREAD THIS
-    if goLeft:
-      p.ChangeDutyCycle(3)     # Changes the pulse width to 3 (so moves the servo)
-    else:
-      p.ChangeDutyCycle(12)    # Changes the pulse width to 12 (so moves the servo)
+    # if goLeft:
+    #   p.ChangeDutyCycle(3)     # Changes the pulse width to 3 (so moves the servo)
+    # else:
+    #   p.ChangeDutyCycle(12)    # Changes the pulse width to 12 (so moves the servo)
+    # sleep(1)
+
+    p.ChangeDutyCycle(3)
+    sleep(3)
+    p.ChangeDutyCycle(12)
     sleep(1)
 
     # Clean up everything
