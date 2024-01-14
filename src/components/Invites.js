@@ -87,32 +87,32 @@ function Invites({ user, uid, db }) {
   }
 
   return (
-    <TableContainer>
-      <Table variant="striped" colorScheme="teal">
-        <TableCaption>All Your Invites</TableCaption>
+    <TableContainer overflowY="scroll">
+      <Table variant="simple" colorScheme="whiteAlpha" mt="5">
+        <TableCaption color="white" >All Your Invites</TableCaption>
         <Thead>
           <Tr>
-            <Th>User</Th>
-            <Th>group name</Th>
-            <Th isNumeric>join</Th>
+            <Th color="white">User</Th>
+            <Th color="white">Group Name</Th>
+            <Th color="white" isNumeric>Join</Th>
           </Tr>
         </Thead>
         <Tbody>
           {invites ? (
             invites.map((invite) => {
               return (
-                <Tr key={invite.inviter}>
+                <Tr color="white" key={invite.inviter}>
                   <Td>{invite.inviter}</Td>
                   <Td>{invite.groupName}</Td>
                   <Td isNumeric>
-                    <Button colorScheme="blue" onClick={()=>joinTeam(invite.group)}>Join Team</Button>
+                    <Button bgColor="#333" textColor="white" borderColor="#FF8360" _hover={{ bgColor: '#FF8360', textColor: 'white' }}   onClick={()=>joinTeam(invite.group)}>Join Team</Button>
                   </Td>
                 </Tr>
               );
             })
           ) : (
             <Tr>
-              <Td>You have no invites</Td>
+              <Td color="white">You have no invites</Td>
               <Td></Td>
               <Td isNumeric></Td>
             </Tr>

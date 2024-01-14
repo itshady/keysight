@@ -15,7 +15,7 @@ import {
   FormLabel,
   FormErrorMessage,
   FormHelperText,
-  Input,
+  Input, VStack, Heading, HStack, 
 } from "@chakra-ui/react";
 import Invites from "./Invites.js";
 import Members from "./Members.js";
@@ -92,54 +92,39 @@ function Settings({ user, uid, db }) {
     setInputInviteMember(e.target.value);
 
   return (
-    <Box px={6} py={4}>
-      <Text className="heading" mb="16px">
-        Settings
-      </Text>
+    <Box w="83%">
+      <VStack align="flex-start" w="100%">
+      <Box  width="100%" height="67vh"boxShadow="rgba(99, 99, 99, 0.3) 0px 2px 8px 0px" mx="0" mb="3" mt="3" borderRadius="10px" backgroundColor= "#303036" backdropBlur="50px" border="2px" borderColor="rgba(235, 235, 235, 0.15)" px={4} > 
+      <Box p="5">
+      <Heading textColor="white" pb="2.5" fontSize="40px">Settings</Heading>
+      <HStack mt="5">
       {group ? (
-        <Box>
-          <Box mb={6}>
-            <Button colorScheme="blue" onClick={inviteMember}>
-              Invite Member
+        <Box w="100%">
+            <Input type="email" value={inputInviteMember} onChange={handleInputChangeInviteMember} height="40px" width="90%"  textColor="white" placeholder="Email Address" p="2" fontSize="10px" focusBorderColor="#FF8360" />
+            <Button ml="3" bgColor="#333" textColor="#FF8360" borderColor="#FF8360" _hover={{ bgColor: '#FF8360', textColor: 'white' }} onClick={leaveGroup} variant="outline" height="40px" fontSize="10px">
+              Leave 
             </Button>
-          </Box>
-          <FormControl width="30vw">
-            <FormLabel>Email address</FormLabel>
-            <Input
-              type="email"
-              value={inputInviteMember}
-              onChange={handleInputChangeInviteMember}
-            />
-            <FormHelperText>
-              Type your friends email address here before hitting invite
-            </FormHelperText>
-          </FormControl>
-          <Button colorScheme="red" onClick={leaveGroup} mt={6} mb={4}>
-            Leave Group
-          </Button>
           <Members user={user} uid={uid} db={db}></Members>
         </Box>
       ) : (
-        <Box>
-          <Text fontSize="25px" fontFamily="league spartan" fontWeight="bold">
-            Create a team by clicking here 👇
-          </Text>
-          <FormControl width="30vw">
-            <FormLabel>Team Name</FormLabel>
-            <Input
-              type="text"
-              value={inputTeamName}
-              onChange={handleInputChangeTeamName}
-            />
-          </FormControl>
-          <Button colorScheme="blue" onClick={generateGroup} mt={2} mb={10}>
-            Create
-          </Button>
+        <Box w="100%">
+          <Input type="text" value={inputTeamName} onChange={handleInputChangeTeamName} height="40px" width="90%"  textColor="white" placeholder="Create a Team Name" p="2" fontSize="10px" focusBorderColor="#FF8360"/>
+          <Button ml="3" bgColor="#333" textColor="#FF8360" borderColor="#FF8360" _hover={{ bgColor: '#FF8360', textColor: 'white' }}      onClick={generateGroup} variant="outline" height="40px" fontSize="10px">
+              Create 
+            </Button>
           <Box>
             <Invites user={user} uid={uid} db={db}></Invites>
           </Box>
         </Box>
       )}
+
+        
+        
+      </HStack>
+      </Box>
+      </Box>
+      </VStack>
+
     </Box>
   );
 }

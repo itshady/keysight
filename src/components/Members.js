@@ -64,19 +64,18 @@ function Members({ user, uid, db }) {
 
   return (
     <TableContainer>
-      <Table variant="striped" colorScheme="teal">
-        <TableCaption>All Your Invites</TableCaption>
+      <Table variant="simple" colorScheme="whiteAlpha" mt="5">
         <Thead>
           <Tr>
-            <Th>User</Th>
-            <Th isNumeric>slacker?</Th>
+            <Th color="white">User</Th>
+            <Th isNumeric></Th>
           </Tr>
         </Thead>
         <Tbody>
           {members ? (
             members.map((member) => {
               return (
-                <Tr key={member.uid}>
+                <Tr color="white" key={member.uid}>
                   <Td>{member.userName}</Td>
                   <Td isNumeric> {member.uid == "CeNLV3soecgY4ZFZuZQ6B9vQ1Sw1" ? <CheckIcon /> : "" } </Td>
                 </Tr>
@@ -84,7 +83,7 @@ function Members({ user, uid, db }) {
             })
           ) : (
             <Tr>
-              <Td>There are no members in this group yet</Td>
+              <Td color="white" >There are no members in this group yet</Td>
               <Td></Td>
               <Td isNumeric></Td>
             </Tr>

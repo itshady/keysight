@@ -80,7 +80,7 @@ function HomePage({ user, uid, db, logIn }) {
                       Invite and manage your house members.
                     </Text>
                     <HStack mt="5">
-                    <Input height="20px" width="90%"  textColor="white" placeholder="Email Address" p="2" fontSize="10px"/>
+                    <Input height="20px" width="90%"  textColor="white" placeholder="Email Address" p="2" fontSize="10px" focusBorderColor="#FF8360" />
                     <Button colorScheme="blue" variant="outline" height="20px" fontSize="10px">
                       Invite 
                     </Button>

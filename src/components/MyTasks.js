@@ -2,18 +2,39 @@ import {
   Box,
   VStack,
   HStack,
-  Text,Heading, Flex, Divider, Avatar, AvatarBadge, AvatarGroup,
+  Text,
+  Heading,
+  Flex,
+  Divider,
+  Avatar,
+  AvatarBadge,
+  AvatarGroup,
   Tooltip,
   CircularProgress,
   CircularProgressLabel,
+  Drawer,
+  DrawerBody,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,useToast, Stat,
+  StatLabel,
+  StatNumber,
+  StatHelpText, Image,
+  StatArrow,
+  StatGroup,
 } from "@chakra-ui/react";
 import Task from "./Task";
-import { useEffect, useState } from "react";
 import { onValue, ref, get, child } from "firebase/database";
 import "../App.css";
-import "./myTasks.css"
+import "./myTasks.css";
 import { FaHouseUser } from "react-icons/fa";
-import { MdOutlineKeyboardDoubleArrowUp } from "react-icons/md";
+import { MdOutlineKeyboardDoubleArrowLeft  } from "react-icons/md";
+import React, { useEffect, useState } from "react";
+import { useDisclosure } from "@chakra-ui/react"; 
+import MessageDivider from "./Messages";
+import graph from "../styles/mock_graph.png";
 
 const percentageC = 20;
 const numTasks = 20;
@@ -24,7 +45,35 @@ function MyTasks({ user, uid, db }) {
   const [logs, setLogs] = useState(null);
   const [alert, setAlert] = useState(null);
   const [housemates, setHousemates] = useState(null);
-
+  const [size, setSize] = React.useState('')
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const toast = useToast();
+  const showToast = (username, purpose) => {
+    let colorScheme = "blue";
+    let description = purpose;
+  
+    if (purpose === "Enter") {
+      colorScheme = "green";
+      description = "Entered the house";
+    } else if (purpose === "Leave") {
+      colorScheme = "red";
+      description = "Left the house";
+    }
+  
+    toast({
+      title: `${username}`,
+      description: description,
+      colorScheme: colorScheme,
+      status: 'info',
+      duration: 5000,
+      isClosable: true,
+    });
+  };
+  
+  const handleClick = (newSize) => {
+    setSize(newSize)
+    onOpen()
+  }
   useEffect(() => {
     onValue(ref(db, "users/" + uid + "/group"), (snapshot) => {
       if (snapshot.exists()) {
@@ -88,6 +137,8 @@ function MyTasks({ user, uid, db }) {
     });
   }, []);
 
+  
+
   return (
     <Box w="83%" >
       <VStack align="flex-start" w="100%">
@@ -133,8 +184,8 @@ function MyTasks({ user, uid, db }) {
                     ))}
                     <Box>
                       {alert ? (
-                        alert.username
-                      ) : ("null")}
+                        showToast(alert.username, alert.purpose)
+                      ) : ("")}
                     </Box>
                   </VStack>
                 </Box>
@@ -164,15 +215,8 @@ function MyTasks({ user, uid, db }) {
                 <Tooltip
                   hasArrow
                   label={value.name}
-                  bg='gray.300'
-                  color='white'
-                  placement='top'
-                  boxShadow="rgba(99, 99, 99, 0.3) 0px 2px 8px 0px"
-                  borderRadius="4px"
-                  backgroundColor="#303036"
-                  backdropBlur="50px"
-                  border="2px"
-                  borderColor="rgba(235, 235, 235, 0.15)"
+                  placement='top' 
+                  bg='gray.300' color='white' boxShadow="rgba(99, 99, 99, 0.3) 0px 2px 8px 0px" borderRadius="4px" backgroundColor="#303036" backdropBlur="50px" border="2px" borderColor="rgba(235, 235, 235, 0.15)"
                 >
                   <Avatar as="span" name={value.name} size="md"><AvatarBadge boxSize='1.25em' bg='green.500' borderColor="#303036" /></Avatar>
                 </Tooltip>
@@ -184,22 +228,90 @@ function MyTasks({ user, uid, db }) {
       </Box>
       </Box>
       <Box  width="50%" height="17vh"boxShadow="rgba(99, 99, 99, 0.3) 0px 2px 8px 0px" mx="0" mb="3" mt="0" borderRadius="10px" backgroundColor= "#303036" backdropBlur="50px" border="2px" borderColor="rgba(235, 235, 235, 0.15)" px={4} > 
-       
+      <Image src={graph} height="130" pt="2"/>
       </Box>
       </HStack>
       <HStack width="100%">
-      <Box  width="70%" height="7.5vh"boxShadow="rgba(99, 99, 99, 0.3) 0px 2px 8px 0px" mr="3" mb="3" mt="0" borderRadius="10px" backgroundColor= "#303036" backdropBlur="50px" border="2px" borderColor="rgba(235, 235, 235, 0.15)" px={4} > 
-       
+      <Box align="center" width="70%" height="7.5vh"boxShadow="rgba(99, 99, 99, 0.3) 0px 2px 8px 0px" mr="3" mb="3" mt="0" borderRadius="10px" backgroundColor= "#303036" backdropBlur="50px" border="2px" borderColor="rgba(235, 235, 235, 0.15)" px={4} > 
+          <HStack align="center" height="100%" >
+          <Stat textColor="white">
+            <StatLabel textColor="white">Guests</StatLabel>
+              <StatArrow type='increase' />
+              9.05%
+          </Stat>
+          <Stat textColor="white">
+            <StatLabel textColor="white">Intruders</StatLabel>
+              <StatArrow type='decrease' />
+              77.6%
+          </Stat>
+          <Stat textColor="white">
+            <StatLabel textColor="white">People</StatLabel>
+              <StatArrow type='increase' />
+              17.37%
+          </Stat>
+          <Stat textColor="white">
+            <StatLabel textColor="white">Deliveries</StatLabel>
+              <StatArrow type='increase' />
+              37.1%
+          </Stat>
+          <Stat textColor="white">
+            <StatLabel textColor="white">Solicitors</StatLabel>
+              <StatArrow type='decrease' />
+              55.7%
+          </Stat>
+          </HStack>
       </Box>
-      <Box align="center" overflow="hidden" width="30%" height="7.5vh" boxShadow="rgba(99, 99, 99, 0.3) 0px 2px 8px 0px" mx="0" mb="3" mt="0" borderRadius="10px" backgroundColor="#FF8360" backdropBlur="50px" border="2px" borderColor="rgba(235, 235, 235, 0.15)" px={4}>
-  <HStack align="center" height="100%" width="100%" justifyContent="center" alignItems="center">
-    <MdOutlineKeyboardDoubleArrowUp color="white" fontSize="45px" />
-    <MdOutlineKeyboardDoubleArrowUp color="white" fontSize="45px" />
-    <Heading color="white" fontSize="35px">Notes</Heading>
-    <MdOutlineKeyboardDoubleArrowUp color="white" fontSize="45px" />
-    <MdOutlineKeyboardDoubleArrowUp color="white" fontSize="45px" />
-  </HStack>
-</Box>
+      <Box  onClick={() => handleClick("lg")} align="center" overflow="hidden" width="30%" height="7.5vh" boxShadow="rgba(99, 99, 99, 0.3) 0px 2px 8px 0px" mx="0" mb="3" mt="0" borderRadius="10px" backgroundColor="#FF8360" backdropBlur="50px" border="2px" borderColor="rgba(235, 235, 235, 0.15)" px={4}>
+        <HStack className="hover-effect" align="center" height="100%" width="100%" justifyContent="center" alignItems="center">
+          <MdOutlineKeyboardDoubleArrowLeft  className="icon" color="white" fontSize="45px" />
+          <MdOutlineKeyboardDoubleArrowLeft  className="icon" color="white" fontSize="45px" />
+          <Heading color="white" fontSize="35px">Notes</Heading>
+          <MdOutlineKeyboardDoubleArrowLeft  className="icon" color="white" fontSize="45px" />
+          <MdOutlineKeyboardDoubleArrowLeft  className="icon" color="white" fontSize="45px" />
+        </HStack>
+      </Box>
+      <Drawer onClose={onClose} isOpen={isOpen} size="lg" >
+        <DrawerOverlay />
+        <DrawerContent overflowY="scroll" bg='gray.300' color='white' boxShadow="rgba(99, 99, 99, 0.3) 0px 2px 8px 0px" borderRadius="4px" backgroundColor="#303036" backdropBlur="50px" border="2px" borderColor="rgba(235, 235, 235, 0.15)">
+          <DrawerCloseButton />
+          <DrawerHeader textColor="white" fontSize="20px">{"Organization Notes"}<Text pt="0.5" pb="1" as="span"color="#D6D6D6" ><br/>see what your house has to say.</Text></DrawerHeader>
+          
+          <DrawerBody>
+          <MessageDivider
+            name="Varun Ram"
+            message="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vel magna sed dolor elementum scelerisque. Morbi quis lacus mauris. Aliquam posuere lacus felis, eu vestibulum est bibendum sed."
+          />
+          <MessageDivider
+            name="Hady Ibrahim"
+            message= "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vel magna sed dolor elementum scelerisque. Morbi quis lacus mauris. Aliquam posuere lacus felis, eu vestibulum est bibendum sed."
+          />
+          <MessageDivider
+            name="Himanshu Singh"
+            message="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed quis aliquam nisl, id condimentum risus. Nulla eu ipsum elementum urna malesuada interdum."
+          />
+          <MessageDivider
+            name="Varun Ram"
+            message="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet tortor nec justo consequat ultrices in a elit. Quisque sit amet dolor tortor. Quisque neque lectus, convallis sed dapibus et, tincidunt at magna. Praesent ut dui eget mauris sodales congue eu eget purus. Vestibulum imperdiet ipsum sit amet interdum volutpat."
+          />
+          <MessageDivider
+            name="Hady Ibrahim"
+            message="Suspendisse potenti. Ut bibendum diam nulla, a congue tortor laoreet id. Donec eleifend posuere arcu, vitae imperdiet neque ultrices nec. In hac habitasse platea dictumst. Phasellus hendrerit non diam nec mattis. Morbi consequat in massa non accumsan."
+          />
+          <MessageDivider
+            name="Himanshu Singh"
+            message=" Duis in dolor porta lectus semper euismod ut at nisi. Pellentesque scelerisque est vitae diam ornare, id mollis ex pellentesque."
+          />
+          <MessageDivider
+            name="Hady Ibrahim"
+            message="Suspendisse potenti. Ut bibendum diam nulla, a congue tortor laoreet id. Donec eleifend posuere arcu, vitae imperdiet neque ultrices nec. In hac habitasse platea dictumst. Phasellus hendrerit non diam nec mattis. Morbi consequat in massa non accumsan."
+          />
+          <MessageDivider
+            name="Hady Ibrahim"
+            message=" Duis in dolor porta lectus semper euismod ut at nisi. Pellentesque scelerisque est vitae diam ornare, id mollis ex pellentesque."
+          />
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
 
       </HStack>
       

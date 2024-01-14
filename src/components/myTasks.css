@@ -1,4 +1,18 @@
+.card-content {
+  background-image: radial-gradient(
+    rgba(167, 115, 52, 0.059) 8%, 
+    transparent 8%
+  );
+  background-position: 0% 0%;
+  background-size: 5vmin 5vmin;
+}
+.hover-effect {
+  transition: transform 0.3s ease; /* Add a smooth transition for the transform property */
+}
 
+.hover-effect:hover .icon {
+  transform: translateX(-5px); /* Adjust the value based on your preference */
+}
 ::-webkit-scrollbar {
     width: 8px; 
   }
