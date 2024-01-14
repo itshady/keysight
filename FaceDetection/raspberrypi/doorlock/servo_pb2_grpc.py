@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import servo_pb2 as servo__pb2
+from . import servo_pb2 as servo__pb2
 
 
 class DoorLockStub(object):

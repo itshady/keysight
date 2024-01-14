@@ -7,7 +7,11 @@ import threading
 from alert import alertclient
 from database import Database
 
-
+# GRPC STUFF
+import grpc
+from raspberrypi.doorlock import servo_pb2_grpc
+from raspberrypi.doorlock import servo_pb2
+import time
 
 #NEEDS TO BE PULLED FROM FIREBASE
 unlocked = False 
@@ -23,7 +27,11 @@ def SpeakText(command):
 
 def unlock():
     #push to firebase
-    print("unlocked")
+    with grpc.insecure_channel('192.168.40.51:8081') as channel:
+        stub = servo_pb2_grpc.DoorLockStub(channel)
+        response = stub.Unlock(servo_pb2.UnlockRequest())
+        print("Unlocked client received: " + str(response.success))
+    # print("unlocked")
 
 
 recognizer = cv2.face.LBPHFaceRecognizer_create()

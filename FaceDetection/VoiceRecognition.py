@@ -2,6 +2,11 @@ import speech_recognition as sr
 import pyttsx3 
 from database import Database
 
+# GRPC STUFF
+import grpc
+from raspberrypi.doorlock import servo_pb2_grpc
+from raspberrypi.doorlock import servo_pb2
+import time
 
 db = Database()
 u = db.getUsers()
@@ -26,7 +31,10 @@ def SpeakText(command):
     engine.runAndWait()
 
 def unlock():
-    print("unlocked")
+    with grpc.insecure_channel('192.168.40.51:8081') as channel:
+        stub = servo_pb2_grpc.DoorLockStub(channel)
+        response = stub.Unlock(servo_pb2.UnlockRequest())
+        print("Unlocked client received: " + str(response.success))
 
 print(db.isHome(uids[0]))
 
@@ -45,7 +53,7 @@ while(1):
             Phrase = Phrase.lower()
             print("Heard: ", Phrase)
             
-            if (Phrase==keyword1 and db.isHome(uids[0])):
+            if (Phrase==keyword1):
                 print("keyword detected")
                 db.isLeaving(uids[0])
                 unlock()
