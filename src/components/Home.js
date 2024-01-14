@@ -20,28 +20,31 @@ import GroupTasks from "./GroupTasks";
 import Settings from "./Settings";
 
 function Home({ user, uid, db, logOut }) {
-  const [tab, setTab] = useState("My Tasks");
+  const [tab, setTab] = useState("Dashboard");
   const { colorMode, toggleColorMode } = useColorMode();
-
+  
   return (
-    <Box w="full">
-      <Navbar
-        toggleColorMode={toggleColorMode}
-        colorMode={colorMode}
-        logOut={logOut}
-        user={user}
-        uid={uid}
-        db={db}
-        setTab={setTab}
-      ></Navbar>
-      {tab === "My Tasks" ? (
-        <MyTasks user={user} uid={uid} db={db} />
-      ) : tab === "Group Tasks" ? (
-        <GroupTasks user={user} uid={uid} db={db} />
-      ) : (
-        <Settings user={user} uid={uid} db={db} />
-      )}
-    </Box>
+<Box w="full">
+  <HStack h="100%" align="flex-start" justify="flex-start">
+    <Navbar
+      toggleColorMode={toggleColorMode}
+      colorMode={colorMode}
+      logOut={logOut}
+      user={user}
+      uid={uid}
+      db={db}
+      setTab={setTab}
+    ></Navbar>
+    {tab === "Dashboard" ? (
+      <MyTasks user={user} uid={uid} db={db} />
+    ) : tab === "Members" ? (
+      <GroupTasks user={user} uid={uid} db={db} />
+    ) : (
+      <Settings user={user} uid={uid} db={db} />
+    )}
+  </HStack>
+</Box>
+
   );
 }
 

@@ -16,6 +16,7 @@ import { getDatabase, ref, set, onValue, off } from "firebase/database";
 import HomePage from "./components/HomePage";
 import Home from "./components/Home";
 
+
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyAufG-g3lbCN1Ves1ioT-c5W9OTo_qg8Ao",
@@ -80,7 +81,7 @@ function App() {
   }, []);
 
   return (
-    <Box>
+    <Box backgroundColor="#1B1B1E" height="100vh">
       {loggedIn == null ? null : !loggedIn ? (
         <HomePage user={user} uid={uid} db={db} logIn={logIn} />
       ) : (
