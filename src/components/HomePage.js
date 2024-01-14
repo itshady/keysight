@@ -33,7 +33,7 @@ function HomePage({ user, uid, db, logIn }) {
         <HStack width="100%" height="90vh">
             <Box padding={10} width="45%" height="100%">
             <Heading textColor="white" pb="5" fontFamily="Arial" fontSize="60px">
-              Smart-home access <br />
+              Smart-Security access <br />
               all in a{" "}
               <Text as="span" color="#FF8360" textDecoration="underline">
                 sight
