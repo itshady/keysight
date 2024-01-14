@@ -53,15 +53,15 @@ while(1):
             Phrase = Phrase.lower()
             print("Heard: ", Phrase)
             
-            if (Phrase==keyword1):
+            if (keyword1 in Phrase):
                 print("keyword detected")
                 db.isLeaving(uids[0])
                 unlock()
-            elif (Phrase==keyword2):
+            elif (keyword2 in Phrase):
                 print("keyword detected" and db.isHome(uids[1]))
                 db.isLeaving(uids[1])
                 unlock()
-            elif (Phrase==keyword3):
+            elif (keyword3 in Phrase):
                 print("keyword detected" and db.isHome(uids[2]))
                 db.isLeaving(uids[2])
                 unlock()
