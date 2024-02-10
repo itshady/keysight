@@ -2,6 +2,7 @@ import grpc
 import servo_pb2_grpc
 import servo_pb2
 import time
+
 def run():
   with grpc.insecure_channel('192.168.40.51:8081') as channel:
     stub = servo_pb2_grpc.DoorLockStub(channel)

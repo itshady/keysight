@@ -29,7 +29,7 @@ import Task from "./Task";
 import { onValue, ref, get, child } from "firebase/database";
 import "../App.css";
 import "./myTasks.css";
-import { FaHouseUser } from "react-icons/fa";
+import { FaHouseUser, FaWalking   } from "react-icons/fa";
 import { MdOutlineKeyboardDoubleArrowLeft  } from "react-icons/md";
 import React, { useEffect, useState } from "react";
 import { useDisclosure } from "@chakra-ui/react"; 
@@ -242,9 +242,37 @@ function MyTasks({ user, uid, db }) {
       </HStack>
       </Box>
       </Box>
-      <HStack justifyContent={"center"} width="50%" height="17vh" boxShadow="rgba(99, 99, 99, 0.3) 0px 2px 8px 0px" mx="0" mb="3" mt="0" borderRadius="10px" backgroundColor= "#303036" backdropBlur="50px" border="2px" borderColor="rgba(235, 235, 235, 0.15)" px={4} > 
-      <Image src={graph} style={{"height": "-webkit-fill-available"}} pt="2"/>
+      <Box  width="50%" height="17vh" boxShadow="rgba(99, 99, 99, 0.3) 0px 2px 8px 0px" mr="3" mb="3" mt="0" borderRadius="10px" backgroundColor= "#303036" backdropBlur="50px" border="2px" borderColor="rgba(235, 235, 235, 0.15)" px={4} > 
+      <Box p="5">
+      <HStack align="center" pb="3">
+        <FaWalking  color="white" />
+        <Heading textColor="white" fontSize="20px">
+          Currently not in the House
+        </Heading>
       </HStack>
+            
+      <HStack> 
+        <AvatarGroup size='md' max={3}>
+        {housemates &&
+          housemates
+            .filter((value) => !value.isHome)
+            .map((value, index) => (
+              <VStack align="left" width="100%" key={index}>
+                <Tooltip
+                  hasArrow
+                  label={value.name}
+                  placement='top' 
+                  bg='gray.300' color='white' boxShadow="rgba(99, 99, 99, 0.3) 0px 2px 8px 0px" borderRadius="4px" backgroundColor="#303036" backdropBlur="50px" border="2px" borderColor="rgba(235, 235, 235, 0.15)"
+                >
+                  <Avatar as="span" name={value.name} size="md"><AvatarBadge boxSize='1.25em' bg='red.500' borderColor="#303036" /></Avatar>
+                </Tooltip>
+              </VStack>
+            ))}
+        </AvatarGroup>
+        
+      </HStack>
+      </Box>
+      </Box>
       </HStack>
       <HStack width="100%">
       <Box align="center" width="70%" height="7.5vh"boxShadow="rgba(99, 99, 99, 0.3) 0px 2px 8px 0px" mr="3" mb="3" mt="0" borderRadius="10px" backgroundColor= "#303036" backdropBlur="50px" border="2px" borderColor="rgba(235, 235, 235, 0.15)" px={4} > 

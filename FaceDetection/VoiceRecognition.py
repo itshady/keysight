@@ -10,7 +10,11 @@ import time
 
 db = Database()
 u = db.getUsers()
-uids = list(u.keys())
+uids = [
+    "1j1xpbkPQscOHNcC3Gnmqmr4DFW2",
+    "A8uBHicEI2NjcmCJHfzHOhgbidc2",
+    "hXGLNY5aLChDAbtmBaIBoJdbWEF3"
+]
 
 # Initialize the recognizer 
 r = sr.Recognizer()

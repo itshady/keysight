@@ -16,5 +16,3 @@ if __name__ == "__main__":
   script1_thread.join()
   script2_thread.join()
   script3_thread.join()
-
-  print("Both scripts have finished executing.")

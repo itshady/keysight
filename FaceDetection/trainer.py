@@ -11,7 +11,7 @@ def getImagesAndLabels(path):
     
     imagePaths=[os.path.join(path,f) for f in os.listdir(path)] 
     
-    faceSamples=[]
+    faceSamples=[] #list of NumPy images
 
     Ids=[]
    
@@ -23,17 +23,17 @@ def getImagesAndLabels(path):
         pilImage=Image.open(imagePath).convert('L')
         print(imagePath)        
         imageNp=np.array(pilImage,'uint8')      
-        Id=int(os.path.split(imagePath)[-1].split(".")[1])
+        Id=int(os.path.split(imagePath)[-1].split(".")[1]) #get user ID from name
         
         faces=detector.detectMultiScale(imageNp)
         print('Extracting Face...')
         for (x,y,w,h) in faces:
             print('adding cropped image to face sample archive')
-            faceSamples.append(imageNp[y:y+h,x:x+w])
+            faceSamples.append(imageNp[y:y+h,x:x+w])    
             Ids.append(Id)
     return faceSamples,Ids
 
-
+#train LBPH face recognizer
 faces,Ids = getImagesAndLabels('FaceDetection/dataSet')
 print('[+] Analysis in progress...')
 recognizer.train(faces, np.array(Ids))

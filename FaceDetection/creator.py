@@ -3,9 +3,9 @@ import cv2
 
 igniter = 8880 # just a random number to avoid overwriting file names
 detector= cv2.CascadeClassifier('FaceDetection/haarcascade_frontalface_default.xml')
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(0) #open webcam
 
-id =input('enter the ID #')
+id =input('enter the ID #') 
 # id=1
 sampleNum = 1
 while(True):

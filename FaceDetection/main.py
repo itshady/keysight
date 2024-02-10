@@ -59,7 +59,7 @@ uids = [
 
 
 while(1):
-    color = (0,0,255) ## RED
+    color = (0,0,255)
     ret, im =cam.read()
     gray=cv2.cvtColor(im,cv2.COLOR_BGR2GRAY)
     faces=faceCascade.detectMultiScale(gray, 1.2,5)
@@ -114,11 +114,13 @@ while(1):
                     # SpeakText("Welcome back " + db.getName(uids[Id-1]))
                     # talk = True
                 readingA=0
-                unlock()
+
+                t2 = threading.Thread(target=unlock)
+                t2.start()
                 db.isEntering(uids[Id-1])
 
             if(readingU>70):
-                cv2.putText(im, "ALERTING" + progress , (400, 450), font, 0.5, (0,0,255) , 2)
+                target=cv2.putText(im, "ALERTING" + progress , (400, 450), font, 0.5, (0,0,255) , 2)
                 alertclient("An unrecognized individual is at your door, log-in for more info")
                 readingU=0
     
